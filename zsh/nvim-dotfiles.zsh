@@ -20,5 +20,12 @@ theme() {
     set current settings of front window to settings set \"$target\"
     set default settings to settings set \"$target\"
   end tell" >/dev/null
+
+  if [[ -n "$TMUX" ]]; then
+    local mode="dark"
+    [[ "$target" == "Mono Light" ]] && mode="light"
+    tmux source-file "$HOME/dotfiles/tmux/theme-$mode.conf" 2>/dev/null
+  fi
+
   echo "theme: $target"
 }

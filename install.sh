@@ -53,8 +53,25 @@ fi
 echo "==> Setting up Terminal.app color profiles (Mono Light / Mono Dark)"
 python3 "$DOTFILES_DIR/terminal/setup_terminal_theme.py"
 
+echo "==> Linking tmux config"
+if [[ -e "$HOME/.tmux.conf" && ! -L "$HOME/.tmux.conf" ]]; then
+  backup="$HOME/.tmux.conf.bak.$(date +%s)"
+  echo "    existing ~/.tmux.conf found, backing up to $backup"
+  mv "$HOME/.tmux.conf" "$backup"
+fi
+ln -sfn "$DOTFILES_DIR/tmux/tmux.conf" "$HOME/.tmux.conf"
+
+echo "==> Bootstrapping TPM (tmux plugin manager) and installing plugins"
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+if [[ ! -d "$TPM_DIR" ]]; then
+  git clone -q https://github.com/tmux-plugins/tpm "$TPM_DIR"
+fi
+"$TPM_DIR/bin/install_plugins" >/dev/null 2>&1 || true
+
 echo ""
 echo "Done."
 echo "  - Open a new shell (or 'source ~/.zshrc') to get the prompt + 'theme' command."
 echo "  - Quit and reopen Terminal.app once to see the full accent color palette."
 echo "  - Open nvim: plugins install automatically on first launch (via lazy.nvim)."
+echo "  - 'tmux' to start a session. 'theme light|dark|toggle' also live-switches"
+echo "    tmux's status bar colors when run inside a tmux session."

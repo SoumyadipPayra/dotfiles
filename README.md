@@ -1,8 +1,8 @@
 # dotfiles
 
-A personal macOS dev environment: Neovim, a Starship prompt, and matching
-Terminal.app color themes, packaged so it's a one-command setup on another
-Mac.
+A personal macOS dev environment: Neovim, tmux, a Starship prompt, and
+matching Terminal.app color themes, packaged so it's a one-command setup on
+another Mac.
 
 ## What's here
 
@@ -24,7 +24,20 @@ Mac.
   high-contrast accents for light — not Gruvbox's cream).
 - **`zsh/nvim-dotfiles.zsh`** — Starship init, plus a `theme` shell function
   (`theme light` / `theme dark` / `theme toggle`) that switches the live
-  Terminal.app profile instantly.
+  Terminal.app profile instantly, and (if run inside a tmux session) also
+  live-reloads tmux's status bar to match.
+- **`tmux/`** — `tmux.conf` plus `theme-dark.conf` / `theme-light.conf`.
+  Prefix is `C-a` (screen-style, easier reach than the default `C-b`), mouse
+  on, vi copy-mode with `y` yanking straight to the macOS clipboard via
+  `pbcopy`, splits keep the current pane's directory (`|` / `-`), and
+  [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator)
+  makes `Ctrl-h/j/k/l` move seamlessly between tmux panes *and* Neovim
+  splits — the same keys this Neovim config already binds for window
+  navigation. Sessions persist across restarts automatically via
+  [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) +
+  [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum). Status
+  bar colors match the Terminal.app profiles exactly (same hex values), so
+  Terminal, tmux, and Neovim all look like one system.
 
 ## Install on a new Mac
 
@@ -37,14 +50,17 @@ git clone git@github.com:<you>/dotfiles.git ~/dotfiles
 
 This will:
 1. `brew bundle` the `Brewfile` (git, neovim, starship, fzf, zoxide,
-   tree-sitter-cli, the Nerd Font).
-2. Symlink `nvim/` → `~/.config/nvim` and `starship/starship.toml` →
-   `~/.config/starship.toml` (backing up anything already there that isn't
-   already one of these symlinks).
+   tree-sitter-cli, tmux, the Nerd Font).
+2. Symlink `nvim/` → `~/.config/nvim`, `starship/starship.toml` →
+   `~/.config/starship.toml`, and `tmux/tmux.conf` → `~/.tmux.conf`
+   (backing up anything already there that isn't already one of these
+   symlinks).
 3. Add one `source` line to `~/.zshrc` for the prompt + `theme` command
    (idempotent — safe to re-run `install.sh` any time).
 4. Run `terminal/setup_terminal_theme.py` to set up the two Terminal.app
    profiles.
+5. Clone TPM (tmux's plugin manager) if missing, and install all tmux
+   plugins non-interactively.
 
 Because it's a symlink, `nvim/` in this repo *is* the live config — edit it
 in place on any machine and `git commit`/`push` from `~/dotfiles`.
@@ -69,5 +85,9 @@ first startup will take a few seconds longer than usual.
   rewrite) — `master` is frozen and breaks on newer Neovim releases. `main`
   needs the `tree-sitter` CLI (in the Brewfile as `tree-sitter-cli`,
   distinct from the `tree-sitter` C library formula) to compile parsers.
-- `theme` only affects Terminal.app. If you use a different terminal
-  emulator, only the Neovim/Starship parts of this repo apply.
+- `theme` always affects Terminal.app; it additionally reloads tmux's
+  status bar only when run from inside a tmux session. If you use a
+  different terminal emulator, only the Neovim/Starship/tmux parts apply.
+- tmux prefix is `C-a`, not the default `C-b`. `prefix + I` (capital i)
+  re-installs/updates plugins by hand if you ever need to (install.sh
+  already does this once automatically).
