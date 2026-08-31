@@ -1,0 +1,41 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """$directory$git_branch$git_status$character"""
+right_format = """$time"""
+add_newline = false
+
+[directory]
+style = "bold cyan"
+truncation_length = 3
+truncate_to_repo = true
+format = "[$path]($style) "
+
+[git_branch]
+symbol = " "
+style = "bold magenta"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "bold yellow"
+format = '[$all_status]($style)'
+up_to_date = ""
+conflicted = "●"
+ahead = "●"
+behind = "●"
+diverged = "●"
+untracked = "●"
+stashed = "●"
+modified = "●"
+staged = "●"
+renamed = "●"
+deleted = "●"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[time]
+disabled = false
+style = "bold green"
+format = "[$time]($style)"
+time_format = "%H:%M:%S"

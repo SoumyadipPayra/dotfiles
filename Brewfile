@@ -1,0 +1,7 @@
+brew "git"
+brew "neovim"
+brew "starship"
+brew "fzf"
+brew "zoxide"
+brew "tree-sitter-cli"
+cask "font-jetbrains-mono-nerd-font"
