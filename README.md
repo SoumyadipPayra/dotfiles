@@ -38,6 +38,17 @@ another Mac.
   [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum). Status
   bar colors match the Terminal.app profiles exactly (same hex values), so
   Terminal, tmux, and Neovim all look like one system.
+- **`claude/themes/`** — two custom [Claude Code
+  themes](https://code.claude.com/docs/en/terminal-config#create-a-custom-theme),
+  `mono-dark.json` ("Mono Dark (Gruvbox)") and `mono-light.json` ("Mono
+  Light"), each based on the built-in `dark-ansi`/`light-ansi` presets (so
+  anything not explicitly overridden already tracks the terminal's ANSI
+  colors) with the spinner/accent, success, error, warning, and diff colors
+  overridden to match the same hex values as the Terminal.app profiles.
+  Select one with `/theme` inside Claude Code. `tmux/tmux.conf` also
+  includes the `allow-passthrough`/`extended-keys` lines Anthropic
+  recommends for running Claude Code inside tmux (fixes Shift+Enter and
+  desktop notifications there).
 
 ## Install on a new Mac
 
@@ -61,6 +72,7 @@ This will:
    profiles.
 5. Clone TPM (tmux's plugin manager) if missing, and install all tmux
    plugins non-interactively.
+6. Symlink the two Claude Code custom themes into `~/.claude/themes/`.
 
 Because it's a symlink, `nvim/` in this repo *is* the live config — edit it
 in place on any machine and `git commit`/`push` from `~/dotfiles`.
@@ -75,6 +87,11 @@ in place on any machine and `git commit`/`push` from `~/dotfiles`.
   API to make it reload that live.
 - **Open a new shell** (or `source ~/.zshrc`) to pick up the prompt and the
   `theme` command.
+- **Pick a Claude Code theme.** Run `/theme` inside Claude Code and choose
+  "Mono Dark (Gruvbox)" or "Mono Light". If `~/.claude/themes/` didn't exist
+  before running `install.sh`, restart Claude Code once first (it only
+  notices a brand-new themes folder on startup; after that, edits to the
+  theme files apply live with no restart).
 
 Neovim's plugins install themselves on first launch via lazy.nvim; the
 first startup will take a few seconds longer than usual.

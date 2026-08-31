@@ -68,6 +68,11 @@ if [[ ! -d "$TPM_DIR" ]]; then
 fi
 "$TPM_DIR/bin/install_plugins" >/dev/null 2>&1 || true
 
+echo "==> Linking Claude Code custom themes"
+mkdir -p "$HOME/.claude/themes"
+ln -sfn "$DOTFILES_DIR/claude/themes/mono-dark.json" "$HOME/.claude/themes/mono-dark.json"
+ln -sfn "$DOTFILES_DIR/claude/themes/mono-light.json" "$HOME/.claude/themes/mono-light.json"
+
 echo ""
 echo "Done."
 echo "  - Open a new shell (or 'source ~/.zshrc') to get the prompt + 'theme' command."
@@ -75,3 +80,6 @@ echo "  - Quit and reopen Terminal.app once to see the full accent color palette
 echo "  - Open nvim: plugins install automatically on first launch (via lazy.nvim)."
 echo "  - 'tmux' to start a session. 'theme light|dark|toggle' also live-switches"
 echo "    tmux's status bar colors when run inside a tmux session."
+echo "  - In Claude Code, run /theme and pick 'Mono Dark (Gruvbox)' or 'Mono Light'."
+echo "    If ~/.claude/themes/ didn't exist before this run, restart Claude Code once"
+echo "    (--continue/--resume to pick the session back up) so it notices the folder."

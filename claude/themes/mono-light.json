@@ -1,0 +1,20 @@
+{
+  "name": "Mono Light",
+  "base": "light-ansi",
+  "overrides": {
+    "claude": "#d65d0e",
+    "success": "#116329",
+    "error": "#cf222e",
+    "warning": "#8a5b00",
+    "text": "#24272b",
+    "inactive": "#6b7280",
+    "subtle": "#9ca3af",
+    "diffAdded": "#dcf5df",
+    "diffRemoved": "#fbdde0",
+    "userMessageBackground": "#e9e9ea",
+    "promptBorder": "#d65d0e",
+    "planMode": "#0969da",
+    "autoAccept": "#116329",
+    "bashBorder": "#007a8c"
+  }
+}
