@@ -1,0 +1,188 @@
+*dotfiles.txt*    Personal Neovim config reference
+
+==============================================================================
+CONTENTS                                                *dotfiles-contents*
+
+  1. Introduction ........................... |dotfiles-intro|
+  2. Toggles ................................. |dotfiles-toggles|
+  3. Find / Navigate ......................... |dotfiles-find|
+  4. File explorer (neo-tree / Oil) .......... |dotfiles-explorer|
+  5. Windows / Buffers ....................... |dotfiles-buffers|
+  6. Editing .................................. |dotfiles-editing|
+  7. LSP ...................................... |dotfiles-lsp|
+  8. Markdown preview ......................... |dotfiles-markdown|
+  9. Run code .................................. |dotfiles-run|
+  10. Plugin / tooling management ............. |dotfiles-plugins|
+  11. Notes .................................... |dotfiles-notes|
+
+==============================================================================
+1. Introduction                                            *dotfiles-intro*
+
+This is a hand-rolled Neovim config managed by lazy.nvim. Leader key is
+<Space>. Config layout:
+
+    init.lua           loads config/* then plugins/*
+    lua/config/         options, keymaps, toggles, runner, autocmds
+    lua/plugins/         one file per plugin (or closely related group)
+
+The plain-text companion to this file is CHEATSHEET.md in the repo root;
+this file exists so the same reference is reachable with |:help| from
+inside Neovim itself, e.g. >
+    :help dotfiles
+    :help dotfiles-toggles
+<
+==============================================================================
+2. Toggles                                                *dotfiles-toggles*
+
+<leader>ut    Toggle theme: dark (gruvbox, hard contrast) <-> light
+              (catppuccin-latte, contrast-corrected for reading code)
+<leader>ua    Toggle autocomplete popup (nvim-cmp) on/off
+<leader>ud    Toggle diagnostics (errors/warnings) on/off
+<leader>uh    Toggle LSP inlay hints on/off
+<leader>mp    Toggle markdown preview (styled) / raw edit mode, current
+              buffer (see |dotfiles-markdown|)
+
+==============================================================================
+3. Find / Navigate                                            *dotfiles-find*
+
+<leader>ff    Find files (Telescope)
+<leader>fg    Live grep (Telescope)
+<leader>fb    List open buffers (Telescope)
+<leader>fh    Search help tags (Telescope)
+<leader>fr    Recent files (Telescope, full MRU history across sessions)
+<leader>fd    List diagnostics (Telescope)
+<C-j>/<C-k>   Move selection down/up (inside a Telescope prompt)
+s             Flash jump -- label-jump to anywhere on screen
+S             Flash treesitter jump -- jump to a syntax node
+:FZF          Basic fuzzy file finder (Homebrew fzf core plugin)
+
+==============================================================================
+4. File explorer (neo-tree / Oil)                        *dotfiles-explorer*
+
+Two different tools, kept deliberately separate (neo-tree has
+`hijack_netrw_behavior = "disabled"` so they don't fight over netrw):
+
+<leader>e     Toggle the neo-tree sidebar (persistent, collapsible)
+<leader>E     Reveal/focus the current file in the sidebar
+-             Open Oil at the current file's directory (edit the
+              filesystem like a buffer: rename/create/delete via normal
+              buffer edits, `:w` to apply)
+
+Inside neo-tree:
+    <CR> / l    open
+    h           collapse folder
+    P           toggle a live floating preview of the file under the
+                cursor -- updates as you move, without leaving the tree
+    a           add file/directory
+    d           delete
+    r           rename
+    ?           show all neo-tree keymaps
+
+Inside Oil:
+    <CR>    open
+    -       go to parent directory
+    g?      show all Oil keymaps
+
+==============================================================================
+5. Windows / Buffers                                        *dotfiles-buffers*
+
+<C-h/j/k/l>          Move to left/lower/upper/right window
+<C-Up/Down/Left/Right>  Resize current window
+<S-l> / <S-h>        Next / previous buffer (cycle through buffer list)
+<leader>bb           Toggle back to the alternate (last-edited) buffer --
+                     fast A/B switch (native Vim alternate-file register)
+<leader>bd           Delete (close) current buffer
+
+See also |dotfiles-find| for <leader>fb (fuzzy buffer picker) and
+<leader>fr (full recent-files history).
+
+==============================================================================
+6. Editing                                                  *dotfiles-editing*
+
+<A-j> / <A-k>      Move current line (or visual selection) down/up
+< / > (visual)     Indent/outdent and keep selection
+p (visual)         Paste over selection without losing the yank register
+x                  Delete char without yanking it
+<C-d> / <C-u>      Half-page scroll, keeps cursor centered
+n / N              Next/prev search match, centered
+<Esc>              Clear search highlight
+gcc                Toggle line comment (Comment.nvim)
+gc (visual)        Toggle comment on selection
+ys<motion><char>   Add surround, e.g. ysiw" wraps word in quotes
+cs<old><new>        Change surround, e.g. cs"'
+ds<char>            Delete surround, e.g. ds"
+
+Autopairs close brackets/quotes as you type. All yank/delete/paste use the
+system clipboard automatically (`clipboard=unnamedplus`).
+
+==============================================================================
+7. LSP                                                          *dotfiles-lsp*
+
+clangd / pylsp / lua_ls attach automatically per filetype.
+
+gd             Go to definition
+gD             Go to declaration
+gr             List references
+gI             Go to implementation
+K              Hover documentation
+<leader>ca     Code action
+<leader>rn     Rename symbol
+<leader>cd     Show diagnostic(s) on current line
+[d / ]d        Jump to previous/next diagnostic
+<C-Space>      (insert) Trigger completion manually
+<C-j> / <C-k>  (insert) Next/previous completion item
+<Tab>/<S-Tab>  (insert) Next/prev item, or expand/jump snippet
+<CR>           (insert, popup open) Confirm completion
+<C-e>          (insert) Abort completion
+
+Python LSP is pylsp (installs via pip). Its bundled pycodestyle plugin's
+max line length is set to 119 in lua/plugins/lsp.lua to match common
+Black/Ruff-formatted projects -- see |dotfiles-notes|.
+
+==============================================================================
+8. Markdown preview                                        *dotfiles-markdown*
+
+render-markdown.nvim renders markdown inline (styled headers, bullets,
+bordered code blocks) in the same buffer you're editing.
+
+<leader>mp    Toggle between rendered (preview) and raw (edit) for the
+              current buffer
+
+==============================================================================
+9. Run code                                                     *dotfiles-run*
+
+<leader>rr           Compile (C/C++) and run the current file in a
+                      terminal split
+<Esc><Esc>  (terminal mode)  Exit back to normal mode
+
+Supported filetypes: C++ (g++ -std=c++17), C (gcc), Python (python3),
+Java (java).
+
+==============================================================================
+10. Plugin / tooling management                              *dotfiles-plugins*
+
+:Lazy                  Open plugin manager UI (install/update/clean)
+:Mason                 Open LSP/tool installer UI
+:MasonInstall <name>   Install a specific tool, e.g. jdtls for Java
+:TSInstall <lang>      Install a Treesitter parser for a language
+:checkhealth           Diagnose config/plugin issues
+
+==============================================================================
+11. Notes                                                       *dotfiles-notes*
+
+- Pyright would need Node.js -- if installed later, swap "pylsp" ->
+  "pyright" in lua/plugins/lsp.lua.
+- Formatting is intentionally minimal -- no autoformatter is installed;
+  just consistent 4-space indent.
+- nvim-treesitter tracks the `main` branch (the rewritten API) since
+  `master` is frozen and breaks on newer Neovim. Its parser installer
+  shells out to the `tree-sitter` CLI (`brew install tree-sitter-cli`,
+  separate from the `tree-sitter` library formula) -- if :TSInstall or
+  :TSUpdate errors with "no such file: tree-sitter", that CLI is missing.
+- This doc file lives under nvim/doc/ and is picked up automatically
+  since ~/.config/nvim is on Neovim's runtimepath. If you edit it, run
+  `:helptags ~/.config/nvim/doc` (or `:helptags ALL`) to rebuild the tag
+  index so |dotfiles-...| links and `:help dotfiles` keep working.
+
+==============================================================================
+vim:tw=78:ts=8:noet:ft=help:norl:

@@ -1,0 +1,13 @@
+dotfiles-buffers	dotfiles.txt	/*dotfiles-buffers*
+dotfiles-contents	dotfiles.txt	/*dotfiles-contents*
+dotfiles-editing	dotfiles.txt	/*dotfiles-editing*
+dotfiles-explorer	dotfiles.txt	/*dotfiles-explorer*
+dotfiles-find	dotfiles.txt	/*dotfiles-find*
+dotfiles-intro	dotfiles.txt	/*dotfiles-intro*
+dotfiles-lsp	dotfiles.txt	/*dotfiles-lsp*
+dotfiles-markdown	dotfiles.txt	/*dotfiles-markdown*
+dotfiles-notes	dotfiles.txt	/*dotfiles-notes*
+dotfiles-plugins	dotfiles.txt	/*dotfiles-plugins*
+dotfiles-run	dotfiles.txt	/*dotfiles-run*
+dotfiles-toggles	dotfiles.txt	/*dotfiles-toggles*
+dotfiles.txt	dotfiles.txt	/*dotfiles.txt*
