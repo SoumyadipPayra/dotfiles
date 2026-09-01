@@ -10,6 +10,8 @@ Leader key: `<Space>`
 | `<leader>ua` | Toggle autocomplete popup (nvim-cmp) on/off |
 | `<leader>ud` | Toggle diagnostics (errors/warnings) on/off |
 | `<leader>uh` | Toggle LSP inlay hints on/off |
+| `<leader>us` | Toggle stopwatch: start/pause (shown bottom-right in the statusline) |
+| `<leader>uS` | Reset stopwatch |
 | `<leader>mp` | Toggle markdown preview (styled) / raw edit mode, current buffer |
 
 ## Find / Navigate

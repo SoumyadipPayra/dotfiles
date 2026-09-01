@@ -1,6 +1,7 @@
 local map = vim.keymap.set
 local toggles = require("config.toggles")
 local runner = require("config.runner")
+local stopwatch = require("config.stopwatch")
 
 -- clear search highlight
 map("n", "<Esc>", "<cmd>nohlsearch<cr>")
@@ -54,6 +55,8 @@ map("n", "<leader>ut", toggles.toggle_theme, { desc = "Toggle light/dark theme" 
 map("n", "<leader>ua", toggles.toggle_autocomplete, { desc = "Toggle autocomplete" })
 map("n", "<leader>ud", toggles.toggle_diagnostics, { desc = "Toggle diagnostics" })
 map("n", "<leader>uh", toggles.toggle_inlay_hints, { desc = "Toggle inlay hints" })
+map("n", "<leader>us", stopwatch.toggle, { desc = "Toggle stopwatch (start/pause)" })
+map("n", "<leader>uS", stopwatch.reset, { desc = "Reset stopwatch" })
 
 -- run current file (compiles C/C++ first)
 map("n", "<leader>rr", runner.run_file, { desc = "Run current file" })

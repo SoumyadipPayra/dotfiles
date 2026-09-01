@@ -39,6 +39,10 @@ inside Neovim itself, e.g. >
 <leader>ua    Toggle autocomplete popup (nvim-cmp) on/off
 <leader>ud    Toggle diagnostics (errors/warnings) on/off
 <leader>uh    Toggle LSP inlay hints on/off
+<leader>us    Toggle stopwatch: start/pause. Shown bottom-right in the
+              statusline (blank until first started); pausing freezes the
+              time, toggling again resumes from there.
+<leader>uS    Reset stopwatch back to zero
 <leader>mp    Toggle markdown preview (styled) / raw edit mode, current
               buffer (see |dotfiles-markdown|)
 

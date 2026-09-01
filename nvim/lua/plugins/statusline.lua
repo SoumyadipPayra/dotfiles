@@ -9,6 +9,10 @@ return {
         globalstatus = true,
         section_separators = "",
         component_separators = "",
+        refresh = { statusline = 1000 }, -- tick the stopwatch every second
+      },
+      sections = {
+        lualine_y = { require("config.stopwatch").status, "progress" },
       },
     })
   end,
